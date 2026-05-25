@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金丝皇菊茶叶评价</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+body{background:#f5f5f5;padding:20px;}
+.box{max-width:500px;margin:0 auto;background:#fff;border-radius:12px;padding:25px;box-shadow:0 2px 10px #ddd;}
+.img{width:100%;border-radius:8px;margin:15px 0;}
+.title{font-size:20px;color:#333;text-align:center;}
+.desc{color:#666;margin:10px 0 20px;text-align:center;}
+.star-box{margin:20px 0;font-size:30px;cursor:pointer;color:#ccc;text-align:center;}
+.star.active{color:#ffb400;}
+textarea{width:100%;height:100px;padding:10px;border:1px solid #eee;border-radius:6px;margin:15px 0;resize:none;}
+.btn{width:100%;padding:12px;border:none;border-radius:6px;background:#28a745;color:#fff;cursor:pointer;font-size:16px;}
+.result{margin-top:20px;padding:15px;background:#e8f5e9;border-radius:6px;text-align:center;display:none;}
+</style>
+</head>
+<body>
+<div class="box">
+    <h2 class="title">金丝皇菊大朵菊花茶</h2>
+    <p class="desc">一朵一杯，清热降火，特级黄菊</p>
+    <img class="img" src="https://picsum.photos/id/122/500/300" alt="金丝皇菊">
+
+    <div class="star-box" id="starBox">
+        <span class="star" onclick="setStar(1)">☆</span>
+        <span class="star" onclick="setStar(2)">☆</span>
+        <span class="star" onclick="setStar(3)">☆</span>
+        <span class="star" onclick="setStar(4)">☆</span>
+        <span class="star" onclick="setStar(5)">☆</span>
+    </div>
+
+    <textarea id="comment" placeholder="写下你的使用体验..."></textarea>
+    <button class="btn" onclick="submitComment()">提交评价</button>
+
+    <div class="result" id="resultBox">
+        <p>提交成功！请把下面的查看码发给我</p>
+        <p style="font-weight:bold;margin-top:10px;" id="viewCode"></p>
+    </div>
+</div>
+
+<script>
+let score = 0;
+function setStar(num) {
+    score = num;
+    const stars = document.querySelectorAll('.star');
+    stars.forEach((star, index) => {
+        star.className = index < num ? 'star active' : 'star';
+    });
+}
+
+function submitComment() {
+    const text = document.getElementById('comment').value.trim();
+    if (!score) return alert('请先选择星级评分');
+    if (!text) return alert('请填写评价内容');
+
+    // 生成唯一查看码
+    const commentData = {
+        star: score,
+        text: text,
+        time: new Date().toLocaleString()
+    };
+    const viewCode = btoa(JSON.stringify(commentData)); // 编码成字符串
+    document.getElementById('viewCode').innerText = viewCode;
+    document.getElementById('resultBox').style.display = 'block';
+    document.getElementById('comment').value = '';
+    setStar(0);
+}
+</script>
+</body>
+</html>

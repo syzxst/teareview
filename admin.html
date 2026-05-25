@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>评价查看后台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+body{padding:30px;max-width:600px;margin:0 auto;}
+h3{margin-bottom:20px;}
+textarea{width:100%;height:100px;padding:10px;border:1px solid #eee;border-radius:6px;margin-bottom:15px;resize:none;}
+.btn{padding:10px 25px;border:none;border-radius:6px;background:#007bff;color:#fff;cursor:pointer;}
+.item{border:1px solid #eee;padding:15px;margin:10px 0;border-radius:8px;}
+</style>
+</head>
+<body>
+<h3>输入用户的查看码，查看评价</h3>
+<textarea id="viewCode" placeholder="请输入用户提交的查看码..."></textarea>
+<button class="btn" onclick="viewComment()">查看评价</button>
+<div id="commentResult"></div>
+
+<script>
+function viewComment() {
+    const code = document.getElementById('viewCode').value.trim();
+    if (!code) return alert('请输入查看码');
+    try {
+        const data = JSON.parse(atob(code));
+        document.getElementById('commentResult').innerHTML = `
+            <div class="item">
+                <p>星级：${data.star}星</p>
+                <p>评价：${data.text}</p>
+                <p>时间：${data.time}</p>
+            </div>
+        `;
+    } catch (e) {
+        alert('查看码无效，请检查输入');
+    }
+}
+</script>
+</body>
+</html>
